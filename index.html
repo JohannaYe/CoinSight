@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰Rex个人财务仪表盘</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 添加 Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Rex个人财务仪表盘</h1>
+        <div class="date-selector">
+            <label for="date-picker">选择日期:</label>
+            <input type="date" id="date-picker" name="report-date">
+            <span id="current-date"></span>
+            <!-- 新增操作按钮 -->
+            <div class="action-buttons">
+                <button id="calculate-btn">重新计算</button>
+                <button id="save-btn">保存数据</button>
+                <button id="load-btn">加载数据</button>
+                <button id="export-btn">导出数据</button>
+                <input type="file" id="import-file" accept=".json" style="display: none;">
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <!-- 流动资产 -->
+            <section class="card" id="liquid-assets">
+                <h2>流动资产</h2>
+                <ul class="item-list">
+                    <li>微信Rex: <input type="number" data-item="wx-rex" value="5.24"> 元</li>
+                    <li>微信厉害了: <input type="number" data-item="wx-lihaile" value="0.2"> 元</li>
+                    <li>支付宝: <input type="number" data-item="alipay" value="12.24"> 元</li>
+                    <li>招商银行: <input type="number" data-item="cmb" value="116.06"> 元</li>
+                    <li>中国银行: <input type="number" data-item="boc" value="571.48"> 元</li>
+                </ul>
+                <p class="total">总计: <span id="liquid-assets-total">0</span> 元</p>
+            </section>
+
+            <!-- 生活储备 -->
+            <section class="card" id="living-reserves">
+                <h2>生活储备</h2>
+                <ul class="item-list">
+                    <li>校园卡: <input type="number" data-item="meal-card" value="145.5"> 元</li>
+                    <li>电动车充电: <input type="number" data-item="electricity-card" value="89.32"> 元</li>
+                </ul>
+                 <p class="total">总计: <span id="living-reserves-total">0</span> 元</p>
+            </section>
+
+            <!-- 投资增值 -->
+            <section class="card" id="investment-growth">
+                <h2>投资增值</h2>
+                 <ul class="item-list">
+                    <li>中国银行理财: <input type="number" data-item="boc-invest" value="5211.06"> 元</li>
+                    <!-- 可以添加更多理财项 -->
+                </ul>
+                <p class="total">总计: <span id="investment-total">0</span> 元</p>
+            </section>
+
+            <!-- 债务清单 -->
+            <section class="card" id="debt-list">
+                <h2>债务清单</h2>
+                <ul class="item-list">
+                    <li>抖音月付: <input type="number" data-item="douyin-pay" value="0"> 元</li>
+                    <li>美团月付: <input type="number" data-item="meituan-pay" value="0"> 元</li>
+                    <li>拼多多先用后付: <input type="number" data-item="pdd-pay" value="63.5"> 元</li>
+                    <li>他人外债: <input type="number" data-item="external-debt" value="680"> 元</li>
+                </ul>
+                 <p class="total">总计: <span id="debt-total">0</span> 元</p>
+                 <!-- 添加债务构成图表 Canvas -->
+                 <div class="chart-container" style="position: relative; height:200px; width:100%; margin-top: 20px;">
+                     <canvas id="debtChart"></canvas>
+                 </div>
+            </section>
+
+             <!-- 成本优化 -->
+            <section class="card" id="cost-optimization">
+                <h2>成本优化 (可报销项)</h2>
+                <p>记录可通过项目报销的支出:</p>
+                <ul class="item-list">
+                    <li>创业1 - 闲鱼外包: <input type="number" data-item="reimburse-mm-xy" value="0"> 元</li>
+                    <li>创业1 - API费用: <input type="number" data-item="reimburse-mm-api" value="0"> 元</li>
+                    <li>创业1 - 服务器: <input type="number" data-item="reimburse-mm-server" value="0"> 元</li>
+                    <li>实习1 - 相关支出: <input type="number" data-item="reimburse-sy-misc" value="0"> 元</li>
+                    <li>项目1 - 相关支出: <input type="number" data-item="reimburse-b2b-misc" value="0"> 元</li>
+                     <!-- 可以添加更多报销项 -->
+                </ul>
+                 <p class="total">潜在可报销总额: <span id="reimbursement-total">0</span> 元</p>
+            </section>
+
+            <!-- 财务总览 -->
+            <section class="card summary" id="financial-summary">
+                <h2>财务总览</h2>
+                 <!-- 添加资产构成图表 Canvas -->
+                 <div class="chart-container" style="position: relative; height:200px; width:50%; margin: 15px auto;">
+                     <canvas id="assetChart"></canvas>
+                 </div>
+                <p>净资产 (流动+储备+投资-债务): <strong id="net-worth">0</strong> 元</p>
+                <p>总资产 (流动+储备+投资): <strong id="total-assets">0</strong> 元</p>
+                <p>总负债: <strong id="total-liabilities">0</strong> 元</p>
+            </section>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
